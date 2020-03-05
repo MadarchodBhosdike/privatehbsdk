@@ -9,7 +9,7 @@ from telegram.ext import MessageHandler, Filters, CommandHandler, run_async, Cal
 from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
 
 import haruka.modules.sql.welcome_sql as sql
-from haruka import dispatcher, OWNER_ID, LOGGER, MESSAGE_DUMP
+from haruka import dispatcher, OWNER_ID, SUDO_USERS, LOGGER, MESSAGE_DUMP
 from haruka.modules.helper_funcs.chat_status import user_admin, is_user_ban_protected
 from haruka.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from haruka.modules.helper_funcs.msg_types import get_welcome_type
@@ -92,6 +92,11 @@ def new_member(bot: Bot, update: Update):
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
                 bot.send_message(chat.id, "Oh, Genos? Let's get this moving.")
+                continue
+                
+            # Give the sudos a special welcome
+            if int(new_mem.id) in SUDO_USERS:
+                bot.send_message(chat.id, "Ayyyy, this pru guy is one of my sudo user")
                 continue
 
             # Give start information when add bot to group
